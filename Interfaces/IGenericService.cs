@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces
 {
-   public interface IGenericService<T>
+   public interface IGenericService<T>:IDisposable
     {
         T Insert(T entity);
         int Update(T entity);

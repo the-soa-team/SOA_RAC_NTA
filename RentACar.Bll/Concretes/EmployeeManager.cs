@@ -1,5 +1,6 @@
 ﻿using Interfaces.AbstractModels;
 using RentACar.Dal.Abstraction;
+using RentACar.Dal.Concretes.Repo;
 using RentACar.Model.EntityModels;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace RentACar.Bll.Concretes
     public class EmployeeManager : IEmployeeService
     {
         IEmployeeDal _employeeDal;
-        public EmployeeManager(IEmployeeDal employeeDal)
+        public EmployeeManager()
         {
-            this._employeeDal = employeeDal;
+            this._employeeDal = new EmployeeRepository();
         }
 
         public bool Delete(Employees entity)
@@ -27,6 +28,17 @@ namespace RentACar.Bll.Concretes
             return _employeeDal.DeletedById(id);
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+                _employeeDal.Dispose();
+        }
+
         public Employees EmployeeLogin(string UserName, string Password)
         {
             try
@@ -35,21 +47,17 @@ namespace RentACar.Bll.Concretes
                 {
                     throw new Exception("Kullanıcı Adı veya Parola Boş Geçilemez.");
                 }
-
-                var _password = new ToPasswordRepository().Md5(Password);
+                var _password = new ToPassword().Md5(Password);//parola şifre dönüştürme
                 var Emp = _employeeDal.EmployeeLogin(UserName, _password);
                 if (Emp == null)
                     throw new Exception("Kullanıcı Adı veya Parola Hatalı");
                 else
                     return Emp;
-
             }
             catch (Exception err)
             {
-
                 throw new Exception("Giriş Hatası Oluştu"+err.Message);
-            }
-          
+            }          
         }
 
         public Employees Insert(Employees entity)

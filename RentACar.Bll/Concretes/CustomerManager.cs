@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Interfaces.AbstractModels;
 using RentACar.Dal.Abstraction;
+using RentACar.Dal.Concretes.Repo;
 using RentACar.Model.EntityModels;
 
 namespace RentACar.Bll.Concretes
@@ -10,9 +11,9 @@ namespace RentACar.Bll.Concretes
     {
         ICustomerDal _customerDal;
 
-        public CustomerManager(ICustomerDal customerDal)
+        public CustomerManager()
         {
-            this._customerDal = customerDal;
+            this._customerDal = new CustomerRepository();
         }
 
         public bool Delete(Customers entity)
@@ -23,6 +24,17 @@ namespace RentACar.Bll.Concretes
         public bool DeletedById(int id)
         {
             return _customerDal.DeletedById(id);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+                _customerDal.Dispose();
         }
 
         public Customers Insert(Customers entity)

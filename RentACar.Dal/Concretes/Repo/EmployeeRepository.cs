@@ -48,13 +48,19 @@ namespace RentACar.Dal.Concretes.Repo
         public int Update(Employees entity)
         {
             //AddOrUpdate = db'de veri yoksa kaydeder var ise günceller
-            RentACarContext.Employees.AddOrUpdate();
+            RentACarContext.Employees.AddOrUpdate(entity);
             return RentACarContext.SaveChanges(); //etkilenen satır sayısını döndürür
         }
 
         public Employees EmployeeLogin(string UserName,string Password)
         {
             return RentACarContext.Employees.Where(x => x.UserName == UserName && x.Password == Password).SingleOrDefault();
+        }
+
+        public void Dispose()
+        {
+            RentACarContext.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

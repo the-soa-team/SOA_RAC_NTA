@@ -48,8 +48,14 @@ namespace RentACar.Dal.Concretes.Repo
         public int Update(Customers entity)
         {
             //AddOrUpdate = db'de veri yoksa kaydeder var ise günceller
-            RentACarContext.Customers.AddOrUpdate();
+            RentACarContext.Customers.AddOrUpdate(entity);
             return RentACarContext.SaveChanges(); //etkilenen satır sayısını döndürür
+        }
+
+        public void Dispose()
+        {
+            RentACarContext.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
