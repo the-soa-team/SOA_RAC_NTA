@@ -20,12 +20,28 @@ namespace RentACar.Bll.Concretes
 
         public bool Delete(Employees entity)
         {
-            return _employeeDal.Delete(entity);
+            try
+            {
+                return _employeeDal.Delete(entity);
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Employee silinemedi" + err.Message);
+            }
+           
         }
 
         public bool DeletedById(int id)
         {
-            return _employeeDal.DeletedById(id);
+            try
+            {
+                return _employeeDal.DeletedById(id);
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Employee silinemedi" + err.Message);
+            }
+            
         }
 
         public void Dispose()
@@ -62,22 +78,60 @@ namespace RentACar.Bll.Concretes
 
         public Employees Insert(Employees entity)
         {
-            return _employeeDal.Insert(entity);
+            try
+            {
+                entity.Password = new ToPassword().Md5(entity.Password);
+                return _employeeDal.Insert(entity);
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Employee eklenemedi " + err.Message);
+            }
+           
         }
 
         public List<Employees> SelectAll()
         {
-            return _employeeDal.SelectAll();
+            try
+            {
+                return _employeeDal.SelectAll();
+            }
+            catch (Exception err)
+            {
+
+                throw new Exception("Employee Listelenemedi " + err.Message);
+            }
+            
         }
 
         public Employees SelectById(int id)
         {
-            return _employeeDal.SelectById(id);
+            try
+            {
+                return _employeeDal.SelectById(id);
+            }
+            catch (Exception err)
+            {
+
+                throw new Exception("Employee Seçilemedi " + err.Message);
+            }
+           
         }
 
-        public int Update(Employees entity)
+        public Employees Update(Employees entity)
         {
-            return _employeeDal.Update(entity);
+            try
+            {
+                //şifre hash yap
+                _employeeDal.Update(entity);
+                return entity;
+            }
+            catch (Exception err)
+            {
+
+                throw new Exception("Employee Güncellenemedi " + err.Message);
+            }
+          
         }
     }
 }

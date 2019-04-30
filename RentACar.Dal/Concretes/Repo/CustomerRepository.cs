@@ -31,7 +31,11 @@ namespace RentACar.Dal.Concretes.Repo
             var customer = SelectById(id);
             return Delete(customer);
         }
-       
+        public Customers CustomerLogin(string UserName, string Password)
+        {
+            return RentACarContext.Customers.Where(x => x.UserName == UserName && x.Password == Password).SingleOrDefault();
+        }
+
 
         public Customers Insert(Customers entity)
         {

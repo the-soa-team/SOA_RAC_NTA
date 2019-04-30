@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using RentACar.Model.EntityModels;
 
 namespace WindowsFormsApp1
 {
@@ -22,16 +22,35 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //using (var a = new CarRepository())
+
+            //using (var x = new EmployeeManager())
             //{
-            //    dataGridView1.DataSource = a.SelectAll();
+            //    Employees cust = new Employees();
+            //    cust = x.SelectById(4);
+
             //}
-            using (var x = new CarManager())
+
+            //ekle
+            //using (var x = new CustomerManager())
+            //{
+            //    Customers cust = new Customers();
+            //    cust.FirstName = "Yasin";
+            //    cust.Password = "1234Aydın";
+            //    x.Insert(cust);
+            //}
+
+            //using (var x = new CustomerManager())
+            //{
+            //    Customers cust = new Customers();
+            //    cust = x.SelectById(1003);
+            //    x.Delete(cust);
+            //}
+            using (var x = new EmployeeManager())
             {
+
                 dataGridView1.DataSource = x.SelectAll();
             }
-
-
+            
         }
     }
 }
