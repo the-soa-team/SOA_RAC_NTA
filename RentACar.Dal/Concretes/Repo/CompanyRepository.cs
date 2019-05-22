@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,6 +37,11 @@ namespace RentACar.Dal.Concretes.Repo
             RentACarContext.Companies.Add(entity);
             RentACarContext.SaveChanges();
             return entity;
+        }
+
+        public List<Company> Listele(Expression<Func<Company, bool>> predicate)
+        {
+            return RentACarContext.Companies.Where(predicate).ToList();
         }
 
         public List<Company> SelectAll()

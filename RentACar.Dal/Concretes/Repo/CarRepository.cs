@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -64,6 +65,11 @@ namespace RentACar.Dal.Concretes.Repo
         {
             RentACarContext.Dispose();
             GC.SuppressFinalize(this);
+        }
+
+        public List<Cars> Listele(Expression<Func<Cars, bool>> predicate)
+        {
+            return RentACarContext.Cars.Where(predicate).ToList();
         }
     }
 }

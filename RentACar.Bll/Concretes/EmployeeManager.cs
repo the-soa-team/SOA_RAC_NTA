@@ -5,6 +5,7 @@ using RentACar.Model.EntityModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -134,6 +135,11 @@ namespace RentACar.Bll.Concretes
                 throw new Exception("Employee Güncellenemedi " + err.Message);
             }
           
+        }
+
+        public List<Employees> Listele(Expression<Func<Employees, bool>> predicate)
+        {
+            return _employeeDal.Listele(predicate);
         }
     }
 }

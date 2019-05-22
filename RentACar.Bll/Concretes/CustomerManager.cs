@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Interfaces.AbstractModels;
 using RentACar.Dal.Abstraction;
 using RentACar.Dal.Concretes.Repo;
@@ -125,6 +126,11 @@ namespace RentACar.Bll.Concretes
                 throw new Exception("Seçilemedi");
             }
            
+        }
+
+        public List<Customers> Listele(Expression<Func<Customers, bool>> predicate)
+        {
+            return _customerDal.Listele(predicate);
         }
     }
 }

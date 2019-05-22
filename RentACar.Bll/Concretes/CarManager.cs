@@ -4,6 +4,7 @@ using RentACar.Dal.Concretes.Repo;
 using RentACar.Model.EntityModels;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace RentACar.Bll.Concretes
 {
@@ -139,6 +140,11 @@ namespace RentACar.Bll.Concretes
             {
                 throw new Exception("Araç Seçilemedi" + err.Message);
             }            
-        }       
+        }
+
+        public List<Cars> Listele(Expression<Func<Cars, bool>> predicate)
+        {
+            return _carDal.Listele(predicate);
+        }
     }
 }

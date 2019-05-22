@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace RentACar.Bll.Concretes
 {
@@ -92,8 +93,8 @@ namespace RentACar.Bll.Concretes
         {
             try
             {
-                if (customer.DriveAge >= car.CarDriverAge && customer.DriverType == car.DriverType && customer.LicenceAge >= car.CarLicenceAge && car.Status == true)
-                {
+                //if (customer.DriveAge >= car.CarDriverAge && customer.DriverType == car.DriverType && customer.LicenceAge >= car.CarLicenceAge && car.Status == true)
+                //{
                     car.Status = false;
                     ICarDal _car = new CarRepository();
                     _car.Update(car);
@@ -107,9 +108,9 @@ namespace RentACar.Bll.Concretes
                     transaction.RentPrice = car.RentPrice * day;
                     Insert(transaction);
                     return true;
-                }
-                else
-                    return false;
+               // }
+                //else
+                  //  return false;
 
             }
             catch (Exception err)
@@ -135,5 +136,11 @@ namespace RentACar.Bll.Concretes
             }
         
         }
+
+        public List<Transactions> Listele(Expression<Func<Transactions, bool>> predicate)
+        {
+            return _transaction.Listele(predicate);
+        }
     }
+   
 }
