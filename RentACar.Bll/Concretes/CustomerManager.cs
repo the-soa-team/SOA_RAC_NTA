@@ -46,10 +46,20 @@ namespace RentACar.Bll.Concretes
                 _customerDal.Dispose();
         }
 
-        public Customers Insert(Customers entity)
+        public bool Insert(Customers entity)
         {
-            entity.Password = new ToPassword().Md5(entity.Password);
-            return _customerDal.Insert(entity);
+            try
+            {
+                entity.Password = new ToPassword().Md5(entity.Password);
+                _customerDal.Insert(entity);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
         }
 
         public Customers CustomerLogin(string UserName, string Password)
@@ -101,13 +111,13 @@ namespace RentACar.Bll.Concretes
            
         }
 
-        public Customers Update(Customers entity)
+        public bool Update(Customers entity)
         {
             try
             {
                 //şifre hash yap
                 _customerDal.Update(entity);
-                return entity;
+                return true;
             }
             catch (Exception)
             {

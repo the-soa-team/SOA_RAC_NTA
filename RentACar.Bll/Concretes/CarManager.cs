@@ -74,14 +74,14 @@ namespace RentACar.Bll.Concretes
                 _carDal.Dispose();
         }
 
-        public Cars Insert(Cars entity)
+        public bool Insert(Cars entity)
         {
             try
             {
                 var deger = _carDal.Insert(entity);
                 if (deger == null)
                 {
-                    return null;
+                    return false;
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace RentACar.Bll.Concretes
                     Company _company = compDal.SelectById(1);
                     _company.NumCars++;
                     compDal.Update(_company);
-                    return deger;
+                    return true;
                 }
             }
             catch (Exception err)
@@ -128,12 +128,12 @@ namespace RentACar.Bll.Concretes
             
         }
 
-        public Cars Update(Cars entity)
+        public bool Update(Cars entity)
         {
             try
             {
                 _carDal.Update(entity);
-                return entity;
+                return true;
             }
             catch (Exception err)
             {

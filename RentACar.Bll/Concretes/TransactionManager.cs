@@ -41,11 +41,12 @@ namespace RentACar.Bll.Concretes
                 _transaction.Dispose();
         }
 
-        public Transactions Insert(Transactions entity)
+        public bool Insert(Transactions entity)
         {
             try
             {
-                return _transaction.Insert(entity);                             
+                _transaction.Insert(entity);
+                return true;
             }
             catch (Exception ex)
             {
@@ -72,12 +73,12 @@ namespace RentACar.Bll.Concretes
          return   _transaction.SelectById(id);
         }
 
-        public Transactions Update(Transactions entity)
+        public bool Update(Transactions entity)
         {
             try
             {            
                 _transaction.Update(entity);
-                return entity;               
+                return true;               
             }
             catch (Exception ex)
             {

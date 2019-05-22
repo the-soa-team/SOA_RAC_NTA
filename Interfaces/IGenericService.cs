@@ -8,8 +8,8 @@ namespace Interfaces
 {
    public interface IGenericService<T>:IDisposable
     {
-        T Insert(T entity);
-        T Update(T entity);
+        bool Insert(T entity);
+        bool Update(T entity);
         List<T> SelectAll();
         // List<T> Listele(Expression<Func<T, bool>> predicate); Dinamik Filtreleme 
         T SelectById(int id);

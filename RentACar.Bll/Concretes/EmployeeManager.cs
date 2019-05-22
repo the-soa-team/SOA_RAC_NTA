@@ -22,7 +22,8 @@ namespace RentACar.Bll.Concretes
         {
             try
             {
-                return _employeeDal.Delete(entity);
+                 _employeeDal.Delete(entity);
+                return true;
             }
             catch (Exception err)
             {
@@ -76,12 +77,13 @@ namespace RentACar.Bll.Concretes
             }          
         }
 
-        public Employees Insert(Employees entity)
+        public bool Insert(Employees entity)
         {
             try
             {
                 entity.Password = new ToPassword().Md5(entity.Password);
-                return _employeeDal.Insert(entity);
+                _employeeDal.Insert(entity);
+                return true;
             }
             catch (Exception err)
             {
@@ -118,13 +120,13 @@ namespace RentACar.Bll.Concretes
            
         }
 
-        public Employees Update(Employees entity)
+        public bool Update(Employees entity)
         {
             try
             {
                 //şifre hash yap
                 _employeeDal.Update(entity);
-                return entity;
+                return true;
             }
             catch (Exception err)
             {
