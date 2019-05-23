@@ -1,5 +1,4 @@
 ﻿using RentACar.Dal.Abstraction;
-using RentACar.Dal.Concretes.Context;
 using RentACar.Model.EntityModels;
 using System;
 using System.Collections.Generic;

@@ -11,30 +11,33 @@ namespace RentACar.Bll.Concretes
     public class CarManager : ICarService
     {
         //Interface yardımı ile ADO,entity vs istenilen tarafa çevirme kolaylaşıyor
-        ICarDal _carDal;
-     
-        public CarManager()
-        {
-            this._carDal = new CarRepository();
-        }
+        //ICarDal _carDal;
+
+        //public CarManager()
+        //{
+        //    this._carDal = new CarRepository();
+        //}
 
         public bool Delete(Cars entity)
         {
             try
             {
-                var deger =_carDal.Delete(entity);
-                if (deger == false)
+                using (ICarDal _carDal = new CarRepository())
                 {
-                     throw new Exception("Araç silinemedi" );
-                }
-                else
-                {
-                    ICompanyDal compDal = new CompanyRepository();
-                    Company _company = compDal.SelectById(1);
-                    _company.NumCars--;
-                    compDal.Update(_company);
-                    return true;
-                }              
+                    var deger = _carDal.Delete(entity);
+                    if (deger == false)
+                    {
+                        throw new Exception("Araç silinemedi");
+                    }
+                    else
+                    {
+                        ICompanyDal compDal = new CompanyRepository();
+                        Company _company = compDal.SelectById(1);
+                        _company.NumCars--;
+                        compDal.Update(_company);
+                        return true;
+                    }
+                }     
             }
             catch (Exception err)
             {
@@ -47,15 +50,18 @@ namespace RentACar.Bll.Concretes
         {
             try
             {
-                var car = SelectById(id);//var ise nesne döndürür
-                if (car == null)
-                    throw new Exception("Araç silinemedi");
-                else
+                using (ICarDal _carDal = new CarRepository())
                 {
-                    Delete(car);
-                    return true;
+                    var car = SelectById(id);//var ise nesne döndürür
+                    if (car == null)
+                        throw new Exception("Araç silinemedi");
+                    else
+                    {
+                        Delete(car);
+                        return true;
+                    }
                 }
-                // return _carDal.DeletedById(id);
+                              
             }
             catch (Exception err)
             {
@@ -71,41 +77,53 @@ namespace RentACar.Bll.Concretes
         }
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
-                _carDal.Dispose();
+            using (ICarDal _carDal = new CarRepository())
+            {
+                if (disposing)
+                    _carDal.Dispose();
+            }
+            
         }
 
         public bool Insert(Cars entity)
         {
             try
             {
-                var deger = _carDal.Insert(entity);
-                if (deger == null)
+                using (ICarDal _carDal = new CarRepository())
                 {
-                    return false;
+                    var deger = _carDal.Insert(entity);
+                    if (deger == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        ICompanyDal compDal = new CompanyRepository();
+                        Company _company = compDal.SelectById(1);
+                        _company.NumCars++;
+                        compDal.Update(_company);
+                        return true;
+                    }
                 }
-                else
-                {
-                    ICompanyDal compDal = new CompanyRepository();
-                    Company _company = compDal.SelectById(1);
-                    _company.NumCars++;
-                    compDal.Update(_company);
-                    return true;
-                }
+                
             }
             catch (Exception err)
             {
 
                 throw new Exception("Araç Eklenemedi" + err.Message);
             }
-            
+
         }
 
         public List<Cars> SelectAll()
         {
             try
             {
-                return _carDal.SelectAll();
+                using (ICarDal _carDal= new CarRepository())
+                {
+                    return _carDal.SelectAll();
+                }
+                
             }
             catch (Exception err)
             {
@@ -119,7 +137,11 @@ namespace RentACar.Bll.Concretes
         {
             try
             {
-                return _carDal.SelectById(id);
+                using (ICarDal _carDal = new CarRepository())
+                {
+                    return _carDal.SelectById(id);
+                }
+                
             }
             catch (Exception err)
             {
@@ -133,18 +155,26 @@ namespace RentACar.Bll.Concretes
         {
             try
             {
-                _carDal.Update(entity);
-                return true;
+                using (ICarDal _carDal = new CarRepository())
+                {
+                    _carDal.Update(entity);
+                    return true;
+                }
             }
             catch (Exception err)
             {
                 throw new Exception("Araç Seçilemedi" + err.Message);
-            }            
+            }
         }
 
         public List<Cars> Listele(Expression<Func<Cars, bool>> predicate)
         {
-            return _carDal.Listele(predicate);
+            using (ICarDal _carDal = new CarRepository())
+            {
+                return _carDal.Listele(predicate);
+            }
+           
+           
         }
     }
 }

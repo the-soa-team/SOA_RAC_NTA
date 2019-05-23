@@ -24,28 +24,28 @@ namespace WindowsFormsApp1
         {
 
 
-           
-            using (var x = new TransactionManager())
-            {
-                Transactions trans = new Transactions();
-                CarManager cm = new CarManager();
-                Cars car = new Cars();
-                CustomerManager cmm = new CustomerManager();
-                
 
-                var selectedcar = cm.SelectById(2);
-                var selectedCustomer = cmm.SelectById(1);
-                x.Rent(trans,selectedcar,selectedCustomer, DateTime.Now, DateTime.Now);
-            }
-            
-
-            //using (var x = new CustomerManager())
+            //using (var x = new TransactionManager())
             //{
-            //    Customers cust = new Customers();
-            //    cust = x.SelectById(1003);
-            //    x.Delete(cust);
+            //    Transactions trans = new Transactions();
+            //    CarManager cm = new CarManager();
+            //    Cars car = new Cars();
+            //    CustomerManager cmm = new CustomerManager();
+
+
+            //    var selectedcar = cm.SelectById(2);
+            //    var selectedCustomer = cmm.SelectById(1);
+            //    x.Rent(trans,selectedcar,selectedCustomer, DateTime.Now, DateTime.Now);
             //}
-            using (var x = new TransactionManager())
+
+
+            using (var x = new CarDetailsManager())
+            {
+               // CarDetail cust = new CarDetail();
+                x.DailyKmControl(1, 4, DateTime.Now, 50);
+            }
+
+            using (var x = new CarDetailsManager())
             {
 
                 dataGridView1.DataSource = x.SelectAll();

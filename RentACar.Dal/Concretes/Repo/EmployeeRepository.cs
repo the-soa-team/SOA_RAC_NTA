@@ -1,5 +1,4 @@
 ﻿using RentACar.Dal.Abstraction;
-using RentACar.Dal.Concretes.Context;
 using RentACar.Model.EntityModels;
 using System;
 using System.Collections.Generic;
@@ -14,6 +13,7 @@ namespace RentACar.Dal.Concretes.Repo
     public class EmployeeRepository : IEmployeeDal
     {
         RentACarContext RentACarContext = new RentACarContext();
+        
 
         public Employees SelectById(int id)
         {

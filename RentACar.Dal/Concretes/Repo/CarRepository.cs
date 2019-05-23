@@ -1,5 +1,5 @@
 ﻿using RentACar.Dal.Abstraction;
-using RentACar.Dal.Concretes.Context;
+using RentACar.Dal.Concretes;
 using RentACar.Model.EntityModels;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace RentACar.Dal.Concretes.Repo
 {
     public class CarRepository : ICarDal
     {
-        RentACarContext RentACarContext = new RentACarContext();
+         RentACarContext RentACarContext = new RentACarContext();
 
         public Cars SelectById(int id)
         {
@@ -42,14 +42,6 @@ namespace RentACar.Dal.Concretes.Repo
 
         public List<Cars> SelectAll()
         {
-           // var context = RentACarContext.Cars;
-
-            //context.Where(x => x.CarLicenceAge <= 3);
-
-            //context.Where(x => x.CarDriverAge <= 25);
-
-           // return context.AsNoTracking().ToList();
-
             return RentACarContext.Cars.AsNoTracking().ToList();
             //asnotracking Her zaman ilk db ye bakar cache'den yanlış veri getirmez
         }

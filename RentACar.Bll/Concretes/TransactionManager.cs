@@ -14,21 +14,29 @@ namespace RentACar.Bll.Concretes
 {
     public class TransactionManager : ITransactionService
     {
-        ITransactionDal _transaction;
+        //ITransactionDal _transaction;
 
-        public TransactionManager()
-        {
-            this._transaction = new TransactionRepository();
-        }
+        //public TransactionManager()
+        //{
+        //    this._transaction = new TransactionRepository();
+        //}
 
         public bool Delete(Transactions entity)
         {
-            return _transaction.Delete(entity);
+            using (ITransactionDal _transaction= new TransactionRepository())
+            {
+                return _transaction.Delete(entity);
+            }
+            
         }
 
         public bool DeletedById(int id)
         {
-            return _transaction.DeletedById(id);
+            using (ITransactionDal _transaction = new TransactionRepository())
+            {
+                return _transaction.DeletedById(id);
+
+            }
         }
 
         public void Dispose()
@@ -38,16 +46,24 @@ namespace RentACar.Bll.Concretes
         }
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
-                _transaction.Dispose();
+            using (ITransactionDal _transaction = new TransactionRepository())
+            {
+                if (disposing)
+                    _transaction.Dispose();
+            }
+               
         }
 
         public bool Insert(Transactions entity)
         {
             try
             {
-                _transaction.Insert(entity);
-                return true;
+                using (ITransactionDal _transaction = new TransactionRepository())
+                {
+                    _transaction.Insert(entity);
+                    return true;
+                }
+                    
             }
             catch (Exception ex)
             {
@@ -60,7 +76,11 @@ namespace RentACar.Bll.Concretes
            
             try
             {
-              return  _transaction.SelectAll();
+                using (ITransactionDal _transaction = new TransactionRepository())
+                {
+                    return _transaction.SelectAll();
+
+                }
 
             }
             catch (Exception)
@@ -71,15 +91,23 @@ namespace RentACar.Bll.Concretes
 
         public Transactions SelectById(int id)
         {
-         return   _transaction.SelectById(id);
+            using (ITransactionDal _transaction = new TransactionRepository())
+            {
+                return _transaction.SelectById(id);
+
+            }
         }
 
         public bool Update(Transactions entity)
         {
             try
-            {            
-                _transaction.Update(entity);
-                return true;               
+            {
+                using (ITransactionDal _transaction = new TransactionRepository())
+                {
+                    _transaction.Update(entity);
+                    return true;
+                }
+                                   
             }
             catch (Exception ex)
             {
@@ -87,14 +115,15 @@ namespace RentACar.Bll.Concretes
             }
         }
 
-
         int day;
         public bool Rent(Transactions transaction,Cars car,Customers customer,DateTime first,DateTime second)
         {
             try
             {
-                //if (customer.DriveAge >= car.CarDriverAge && customer.DriverType == car.DriverType && customer.LicenceAge >= car.CarLicenceAge && car.Status == true)
-                //{
+                using (ITransactionDal _transaction = new TransactionRepository())
+                {
+                    //if (customer.DriveAge >= car.CarDriverAge && customer.DriverType == car.DriverType && customer.LicenceAge >= car.CarLicenceAge && car.Status == true)
+                    //{
                     car.Status = false;
                     ICarDal _car = new CarRepository();
                     _car.Update(car);
@@ -103,15 +132,15 @@ namespace RentACar.Bll.Concretes
                     transaction.BeginDate = first;
                     transaction.DeliveryDate = second;
                     transaction.CurrentKm = car.CurrentKm;
-                    transaction.ReturnKm = car.CurrentKm;
+                    transaction.ReturnKm = car.CurrentKm;//bu kilometre değişecek
                     day = second.Day - first.Day;
                     transaction.RentPrice = car.RentPrice * day;
                     Insert(transaction);
                     return true;
-               // }
-                //else
-                  //  return false;
-
+                    // }
+                    //else
+                    //  return false;
+                }
             }
             catch (Exception err)
             {
@@ -123,11 +152,15 @@ namespace RentACar.Bll.Concretes
         {
             try
             {
-                car.CurrentKm = car.CurrentKm + car.DailyKm * day;
-                car.Status = true;
-                ICarDal _car = new CarRepository();
-                _car.Update(car);
-                return true;
+                using (ITransactionDal _transaction = new TransactionRepository())
+                {
+                    car.CurrentKm = car.CurrentKm + car.DailyKm * day;
+                    car.Status = true;
+                    ICarDal _car = new CarRepository();
+                    _car.Update(car);
+                    return true;
+                }
+                 
 
             }
             catch (Exception)
@@ -139,8 +172,10 @@ namespace RentACar.Bll.Concretes
 
         public List<Transactions> Listele(Expression<Func<Transactions, bool>> predicate)
         {
-            return _transaction.Listele(predicate);
+            using (ITransactionDal _transaction = new TransactionRepository())
+            {
+                return _transaction.Listele(predicate);
+            }               
         }
     }
-   
 }
