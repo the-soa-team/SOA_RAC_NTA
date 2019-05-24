@@ -15,7 +15,7 @@ namespace RentACar.Bll.Concretes
     {
 
 
-        public void DailyKmControl(int transID, int carID, DateTime date,int Dailykm)
+        public CarDetail DailyKmControl(int transID, int carID, DateTime date,int Dailykm)
         {
             try
             {
@@ -48,7 +48,8 @@ namespace RentACar.Bll.Concretes
                         _tran.Update(tran);
                     }
 
-                    CarDetailsAddTable(car, tran, date, Dailykm);
+                   CarDetail cd= CarDetailsAddTable(car, tran, date, Dailykm);
+                    return cd;
                 }
             }
             catch (Exception err)
@@ -57,7 +58,7 @@ namespace RentACar.Bll.Concretes
             }
         }
 
-        public void CarDetailsAddTable(Cars car,Transactions Trans,DateTime date,int dailyKm)
+        public CarDetail CarDetailsAddTable(Cars car,Transactions Trans,DateTime date,int dailyKm)
         {
             CarDetail cd = new CarDetail();
             cd.CarID = car.CarID;
@@ -65,6 +66,7 @@ namespace RentACar.Bll.Concretes
             cd.BeginDate = date;
             cd.DailyKm = dailyKm;
             Insert(cd);
+            return cd;
         }
 
 
